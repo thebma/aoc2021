@@ -9,7 +9,7 @@ fn path_of_segment(start: &Vec<i32>, end: &Vec<i32>) -> Vec<Vec<i32>>
     let dy = (start[1] - end[1]).abs();
 
     //Is this a row or a column?
-    if dx == 0 && dy == 0 
+    if dx == 0 || dy == 0
     {
         //Columns...
         if dx == 0 
@@ -30,6 +30,20 @@ fn path_of_segment(start: &Vec<i32>, end: &Vec<i32>) -> Vec<Vec<i32>>
             {
                 lines.push(vec![basis + i, end[1]]);
             }
+        }
+    }
+    //No, these are diagonals.
+    else 
+    {  
+        let dir_x = start[0] - end[0] > 0; //false
+        let dir_y = start[1] - end[1] > 0; //false
+
+        for i in 0..dx+1 
+        {
+            lines.push(vec![
+                start[0] + if dir_x { -i } else { i }, 
+                start[1] + if dir_y { -i } else { i }, 
+            ]);
         }
     }
 
@@ -85,7 +99,7 @@ fn main()
         }
     }
 
-    //Put all our paths onto it.
+    // //Put all our paths onto it.
     for segment in &segments 
     {
         let paths =  path_of_segment(&segment[0], &segment[1]);
