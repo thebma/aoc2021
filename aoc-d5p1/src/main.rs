@@ -1,6 +1,6 @@
 use std::cmp;
 
-static DATA: &str = include_str!("../../data/day5.i");
+static DATA: &str = include_str!("../../data/day5.t");
 
 fn path_of_segment(start: &Vec<i32>, end: &Vec<i32>) -> Vec<Vec<i32>>
 {
@@ -9,7 +9,7 @@ fn path_of_segment(start: &Vec<i32>, end: &Vec<i32>) -> Vec<Vec<i32>>
     let dy = (start[1] - end[1]).abs();
 
     //Is this a row or a column?
-    if dx == 0 && dy == 0 
+    if dx == 0 || dy == 0
     {
         //Columns...
         if dx == 0 
@@ -31,6 +31,12 @@ fn path_of_segment(start: &Vec<i32>, end: &Vec<i32>) -> Vec<Vec<i32>>
                 lines.push(vec![basis + i, end[1]]);
             }
         }
+    }
+    //No these are diagnals.
+    else 
+    {  
+        println!("{:?} {:?} {} {}", start, end, dx, dy)
+        
     }
 
     return lines;
