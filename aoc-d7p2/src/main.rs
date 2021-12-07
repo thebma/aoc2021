@@ -1,12 +1,22 @@
 static DATA: &str = include_str!("../../data/day7.i");
 
+fn sum_of_all_previous_numbers(num: u32) -> u32 {
+    let mut sum = 0;
+    for i in 0..num {
+        sum += i
+    }
+
+    return num + sum;
+}
+
 fn get_fuel_expenditure(desired_position: i32, crab_positions: &Vec<i32>) -> u32
 {
     let mut fuel_sum: u32 = 0;
 
     for crab_position in crab_positions 
     {
-        fuel_sum += (*crab_position - desired_position).abs() as u32;
+        let steps = (*crab_position - desired_position).abs() as u32;
+        fuel_sum += sum_of_all_previous_numbers(steps);
     }
 
     return fuel_sum;
@@ -20,8 +30,6 @@ fn main()
         .collect();
 
     let range = list_of_crabs.iter().max().unwrap();
-    println!("Searching from range of 0 to {}..", range);
-
     let mut position = 0;
     let mut fuel_counter = u32::MAX;
 
@@ -33,6 +41,8 @@ fn main()
             position = desired;
             fuel_counter = total;
         }
+
+        println!("{}", desired);
     }
 
     println!("Most fuel efficient arrangement is {} with position {}", fuel_counter, position);
