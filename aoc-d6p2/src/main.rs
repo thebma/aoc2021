@@ -1,6 +1,6 @@
 static DATA: &str = include_str!("../../data/day6.i");
 
-fn fish_shift(fish_register: Vec<u64>) -> Vec<u64>
+fn fish_shift(fish_register: Vec<u128>) -> Vec<u128>
 {
     let mut old_fish_register = fish_register.clone();
     let mut new_fish_register = vec![0; 10];
@@ -28,22 +28,37 @@ fn main()
         .map(|x| x.parse::<i32>().unwrap())
         .collect::<Vec<i32>>();
 
-    let mut fish_register: Vec<u64> = vec![0; 10];
+    let mut fish_register: Vec<u128> = vec![0; 10];
 
     for fish in school {
         fish_register[fish as usize] += 1;
     }
 
-    let mut running_fish_register: Vec<u64> = fish_register;
+    let mut running_fish_register: Vec<u128> = fish_register;
     println!("Initial State: {:?}", running_fish_register);
 
-    for day in 0..256
+    let mut last: u128 = 0;
+
+    for day in 0..900
     {
         running_fish_register = 
             fish_shift(running_fish_register)
             .clone();
 
-        println!("After Day {}: {:?}", day + 1, running_fish_register);
+        let mut sum = 0;
+        for all in running_fish_register.clone()
+        {
+            sum += all;
+        }
+
+        if sum < last {
+            println!("Day {}.... we have {} fishes... {}", day, sum, u128::MAX);
+            break;
+        }
+        else {
+            last = sum;
+        }
+        
     }    
 
     let mut sum = 0;
